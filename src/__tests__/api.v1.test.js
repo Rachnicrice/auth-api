@@ -5,16 +5,17 @@ const { db } = require('../models');
 const supertest = require('supertest');
 const mockRequest = supertest(server);
 
-beforeAll(async (done) => {
-  await db.sync();
-  done();
-});
-afterAll(async (done) => {
-  await db.drop();
-  done();
-});
 
 describe('web server', () => {
+  beforeAll(async (done) => {
+    await db.sync();
+    done();
+  });
+  
+  afterAll(async (done) => {
+    await db.drop();
+    done();
+  });
 
   it('should respond with a 404 on an invalid route', async () => {
     let results = await mockRequest.get('/foobar');

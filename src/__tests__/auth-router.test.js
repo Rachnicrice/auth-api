@@ -2,27 +2,27 @@
 
 require('dotenv').config();
 const supertest = require('supertest');
-const server = require('../server.js').server;
+const server = require('../server.js');
 const { db } = require('../models');
 
 const mockRequest = supertest(server);
 
-let users = {
-  admin: { username: 'admin', password: 'password', role: 'admin' },
-  editor: { username: 'editor', password: 'password', role: 'editor' },
-  user: { username: 'user', password: 'password', role: 'user' },
-};
-
-beforeAll(async (done) => {
-  await db.sync();
-  done();
-});
-afterAll(async (done) => {
-  await db.drop();
-  done();
-});
-
 describe('Auth Router', () => {
+
+  let users = {
+    admin: { username: 'admin', password: 'password', role: 'admin' },
+    editor: { username: 'editor', password: 'password', role: 'editor' },
+    user: { username: 'user', password: 'password', role: 'user' },
+  };
+  
+  beforeAll(async (done) => {
+    await db.sync();
+    done();
+  });
+  afterAll(async (done) => {
+    await db.drop();
+    done();
+  });
 
   Object.keys(users).forEach(userType => {
 
