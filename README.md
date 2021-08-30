@@ -9,7 +9,7 @@
 ### Links and Resources
 
 - [ci/cd](https://github.com/Rachnicrice/auth-api/actions)
-- [back-end server url]()
+- [back-end server url](https://rl-auth-api.herokuapp.com/)
 
 ### Setup
 
