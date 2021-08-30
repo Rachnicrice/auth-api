@@ -2,7 +2,7 @@
 
 require('dotenv').config();
 const supertest = require('supertest');
-const server = require('../server.js');
+const server = require('../server.js').server;
 const { db } = require('../models');
 
 const mockRequest = supertest(server);

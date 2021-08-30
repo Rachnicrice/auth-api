@@ -5,6 +5,20 @@ const middleware = require('../middleware/bearer.js');
 const { db, users } = require('../models');
 const jwt = require('jsonwebtoken');
 
+let testUsers = {
+  admin: { username: 'admin', password: 'password', role: 'admin' },
+};
+
+beforeAll(async (done) => {
+  await db.sync();
+  await users.create(testUsers.admin);
+  done();
+});
+afterAll(async (done) => {
+  await db.drop();
+  done();
+})
+
 describe('Auth Middleware', () => {
   const req = {};
   const res = {
@@ -15,22 +29,7 @@ describe('Auth Middleware', () => {
 
   describe('user authentication', () => {
 
-    let testUsers = {
-      admin: { username: 'admin', password: 'password', role: 'admin' },
-    };
-    
-    beforeAll(async (done) => {
-      await db.sync();
-      await users.create(testUsers.admin);
-      done();
-    });
-    afterAll(async (done) => {
-      await db.drop();
-      done();
-    })
-
     it('fails a login for a user (admin) with an incorrect token', () => {
-
       req.headers = {
         authorization: 'Bearer thisisabadtoken',
       };
@@ -44,7 +43,6 @@ describe('Auth Middleware', () => {
     });
 
     it('logs in a user with a proper token', () => {
-
       const user = { username: 'admin' };
       const token = jwt.sign(user, process.env.SECRET || 'secretstring');
 
